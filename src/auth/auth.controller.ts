@@ -31,6 +31,10 @@ export class AuthController {
   }
 
   @Get('/me')
+  @ApiOperation({
+    summary: 'Get users Infos',
+    description: 'Returns 200 and return logged user info',
+  })
   @UseGuards(AuthGuard('jwt'))
   async getUserId(@Req() req: any) {
     return await this.authService.me(req.user);
