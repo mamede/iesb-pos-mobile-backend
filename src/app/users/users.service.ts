@@ -1,10 +1,11 @@
 import { Repository } from 'typeorm';
+import { Injectable } from '@nestjs/common';
 import { ICreateUserDTO } from '@app/users/dtos/ICreateUserDTO';
 import { IUpdateUserDTO } from '@app/users/dtos/IUpdateUserDTO';
 import { UsersEntity } from '@app/users/entities/users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { NotFoundException } from '@nestjs/common';
-
+@Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UsersEntity)

@@ -7,7 +7,7 @@ import { HealthModule } from '@health/health.module';
 import { UsersModule } from '@app/users/users.module';
 import { UsersTokenModule } from '@app/users/users-token.module';
 import { AuthModule } from '@auth/auth.module';
-import { ExamsModule } from './exams/exams.module';
+import { ExamsModule } from '@app/exams/exams.module';
 
 @Module({
   imports: [
