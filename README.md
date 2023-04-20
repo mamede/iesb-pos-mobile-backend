@@ -10,6 +10,24 @@ $ npm i
 ## Criando usuário no postgres
 
 
+## Criando seu usuário.
+Rode o comando `npm run typeorm migration:run` e após isso acesse a rota `/api/v1/users/register`
+No corpo da requisição adicione o json abaixo:
+```json
+{
+  "username": "username",
+  "password": "iesbpos123"
+}
+```
+
+## Login
+Após criar seu usuário acesse a rota `` e insira no corpo da requisição o json abaixo:
+```json
+{
+  "username": "username",
+  "password": "iesbpos123"
+}
+```
 ## Rodando o app
 Utilize o comando abaixo
 ```bash

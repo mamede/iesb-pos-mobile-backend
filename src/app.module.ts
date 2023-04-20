@@ -4,6 +4,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { HealthModule } from '@health/health.module';
+import { UsersModule } from '@app/users/users.module';
+import { UsersTokenModule } from '@app/users/users-token.module';
+import { AuthModule } from '@auth/auth.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -20,7 +24,10 @@ import { HealthModule } from '@health/health.module';
       synchronize: false,
       logging: false,
     } as TypeOrmModuleOptions),
+    AuthModule,
     HealthModule,
+    UsersModule,
+    UsersTokenModule,
   ],
 
   controllers: [AppController],
