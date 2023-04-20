@@ -9,13 +9,22 @@
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": ".",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "esModuleInterop": true,
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@auth/*": ["src/auth/*"],
+      "@config/*": ["src/config/*"],
+      "@health/*": ["src/health/*"],
+      "@helpers/*": ["src/helpers/*"],
+      "@database/*": ["src/database/*"]
+    }
   }
 }
