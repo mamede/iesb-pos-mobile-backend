@@ -9,9 +9,6 @@ const configs: TypeOrmModuleOptions = {
   database: process.env.TYPEORM_DATABASE,
   migrations: ['./src/database/migrations/*.ts'],
   entities: ['./src/app/**/entities/*.ts'],
-  cli: {
-    migrationsDir: './src/database/migrations',
-  },
 };
 
 module.exports = configs;

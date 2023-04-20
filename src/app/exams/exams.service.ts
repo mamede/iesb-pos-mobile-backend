@@ -56,6 +56,6 @@ export class ExamsService {
 
   async destroy(id: string) {
     await this.findOne(id);
-    this.repository.softDelete({ id });
+    this.repository.delete({ id });
   }
 }
