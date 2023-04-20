@@ -1,4 +1,5 @@
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -6,6 +7,7 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { hashSync } from 'bcryptjs';
 import { v4 as uuidV4 } from 'uuid';
 import { Exclude, instanceToPlain } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
@@ -55,6 +57,11 @@ export class UsersEntity {
     example: '2022-03-01 05:38:29.752349',
   })
   deletedAt?: string;
+
+  @BeforeInsert()
+  hashPassword() {
+    this.password = hashSync(this.password, 10);
+  }
 
   toJSON() {
     return instanceToPlain(this);

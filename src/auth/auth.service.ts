@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import auth from '@config/auth';
 import { sign } from 'jsonwebtoken';
 import { UsersEntity } from '@app/users/entities/users.entity';
+import { compareSync } from 'bcryptjs';
 import { UsersService } from '@app/users/users.service';
 import { UsersTokensService } from '@app/users/users-tokens.service';
 
@@ -32,7 +33,7 @@ export class AuthService {
       throw new NotFoundException('Email or password incorrect!');
     }
 
-    const passwordMatch = password === user.password;
+    const passwordMatch = await compareSync(password, user.password);
 
     if (!passwordMatch) {
       throw new NotFoundException('Email or password incorrect!');
@@ -75,7 +76,7 @@ export class AuthService {
       return null;
     }
 
-    const isPasswordValid = password === user.password;
+    const isPasswordValid = await compareSync(password, user.password);
     if (!isPasswordValid) return null;
 
     return user;

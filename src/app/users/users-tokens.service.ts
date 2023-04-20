@@ -4,6 +4,15 @@ import { Repository } from 'typeorm';
 import { ICreateUserTokenDTO } from '@app/users/dtos/ICreateUserTokenDTO';
 import { UserTokensEntity } from '@app/users/entities/users-token.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { NotFoundException } from '@nestjs/common';
+import { verify, sign } from 'jsonwebtoken';
+import auth from '@config/auth';
+import { ITokenResposeDTO } from '@app/users/dtos/ITokenResposeDTO';
+
+interface IPayload {
+  sub: string;
+  email: string;
+}
 
 export class UsersTokensService {
   constructor(
@@ -59,5 +68,42 @@ export class UsersTokensService {
 
   dateNow(): Date {
     return dayjs().toDate();
+  }
+
+  async RefreshToken(token: string): Promise<ITokenResposeDTO> {
+    const { email, sub } = verify(token, auth.secret_refresh_token) as IPayload;
+
+    const user_id = sub;
+
+    const userToken = await this.findByUserIdAndRefreshToken(user_id, token);
+
+    if (!userToken) {
+      throw new NotFoundException('Refresh Token does not exists!');
+    }
+
+    await this.destroy(userToken.id);
+
+    const refresh_token = sign({ email }, auth.secret_refresh_token, {
+      subject: sub,
+      expiresIn: auth.expires_in_refresh_token,
+    });
+
+    const expires_date = this.addDays(auth.expires_refresh_token_days);
+
+    await this.store({
+      expires_date,
+      refresh_token,
+      user_id,
+    });
+
+    const newToken = sign({}, auth.secret_token, {
+      subject: user_id,
+      expiresIn: auth.expires_in_token,
+    });
+
+    return {
+      refresh_token,
+      token: newToken,
+    };
   }
 }
